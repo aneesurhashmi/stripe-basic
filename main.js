@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 // enter ur secret key
-const stripe = require("stripe")("SECRET_KEY");
+const stripe = require("stripe")("sk_test_3GbYc99UNaJZ1297cBMeXnTo");
 
 const app = express();
 app.use(express.json());
@@ -57,6 +57,20 @@ app.get("/verification-result/:id", async (req, res) => {
     });
   res.send(verificationSession);
   // const firstName = verificationSession.verified_outputs.first_name;
+});
+
+app.get("/verify-user", async (req, res) => {
+  // Set your secret key. Remember to switch to your live secret key in production.
+  // See your keys here: https://dashboard.stripe.com/apikeys
+  const accountLink = await stripe.accountLinks.create({
+    account: "acct_1KuTV3R3osfbdLM8",
+    refresh_url: "https://near.tipjarlove.com/",
+    return_url: "https://near.tipjarlove.com/",
+    type: "account_onboarding",
+    collect: "eventually_due",
+  });
+
+  res.send(accountLink);
 });
 
 app.listen(3000, () => {
